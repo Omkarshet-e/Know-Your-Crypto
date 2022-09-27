@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoTrackingApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".AssetInfo"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -24,7 +26,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
