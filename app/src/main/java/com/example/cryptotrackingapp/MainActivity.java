@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public String url = "https://api.coinpaprika.com/v1/coins";
 
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
 
     ArrayList<CryptoInfo> list=new ArrayList<>();
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        progressBar = findViewById(R.id.progressBar);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void showNote(){
 
+        progressBar.setVisibility(View.GONE);
         CryptoInfoAdapter adapter = new CryptoInfoAdapter(this,list);
         recyclerView.setAdapter(adapter);
 

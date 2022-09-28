@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class AssetInfo extends AppCompatActivity {
 
     ImageView img;
     TextView asset,description,descriptionTitle;
+    ProgressBar imgProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,9 @@ public class AssetInfo extends AppCompatActivity {
         asset = findViewById(R.id.txtAssetName);
         description = findViewById(R.id.txtAssetDescription);
         descriptionTitle = findViewById(R.id.txtAssetDescriptionTitle);
+        imgProgress = findViewById(R.id.imgprogress);
+
+        imgProgress.setVisibility(View.VISIBLE);
 
         String query = getIntent().getExtras().getString("Query");
         String url = "https://api.coinpaprika.com/v1/coins"+"/"+query;
@@ -42,13 +48,17 @@ public class AssetInfo extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Picasso.get().load(response.getString("logo")).into(img);
                     asset.setText(response.getString("name"));
                     String des = response.getString("description");
                     Log.d("Descrip",des);
-                    description.setText(des);
-                    Picasso.get().load(response.getString("logo")).into(img);
+                    if(des.isEmpty()){
+                        description.setText("No info available");
+                    }else {
+                        description.setText(des);
+                    }
                     descriptionTitle.setText("Description");
-
+                    imgProgress.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
